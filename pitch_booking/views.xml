@@ -17,9 +17,11 @@
                         <group>
                             <field name="name"/>
                             <field name="venue_id"/>
+                            <field name="color" widget="color"/>
                         </group>
                         <group>
                             <field name="calendar_id"/>
+                            <field name="has_slot_calendar"/>
                             <field name="company_id"/>
                         </group>
                     </group>
@@ -95,17 +97,11 @@
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
                     <field name="venue_id"/>
                     <field name="pitch_id" domain="[('venue_id','=',venue_id)]"/>
                     <field name="booking_start"/>
                     <field name="booking_end"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree" position="inside">
-                    <calbutton/>
                 </xpath>
             </field>
         </record>
@@ -148,6 +144,67 @@
                 </ul>
             </xpath>
         </template>
+
+        <record id="view_booking_order_line_venue_tree" model="ir.ui.view">
+          <field name="model">sale.order.line</field>
+          <field name="inherit_id" ref="booking_calendar.view_booking_order_line_tree" />
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_subtotal']" position="after">
+              <field name="venue_id"/>
+              <field name="pitch_id"/>
+            </xpath>
+          </field>
+        </record>
+
+        <record model="ir.ui.view" id="venue_pitch_search_view">
+          <field name="name">venue.pitch.search</field>
+          <field name="model">sale.order.line</field>
+          <field name="inherit_id" ref="booking_calendar.booking_search_view" />
+          <field name="arch" type="xml">
+            <xpath expr="//group" position="before">
+                <field name="venue_id"/>
+                <field name="pitch_id"/>
+            </xpath>
+          </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_booking_order_line_form">
+          <field name="name">venue.pitch.from</field>
+          <field name="model">sale.order.line</field>
+          <field name="inherit_id" ref="booking_calendar.view_booking_order_line_form" />
+          <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="venue_id"/>
+                <field name="pitch_id"/>
+            </xpath>
+            <field name="resource_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+          </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="booking_calendar.booking_orders_lines_list_action">
+          <field name="context" eval="{'search_default_active_bookings': 1}"/>
+          <field name="domain">[('venue_id','!=','False'), ('pitch_id','!=',False)]</field>
+        </record>
+
+        <record id="view_order_line_booking_form_venue_pitch" model="ir.ui.view">
+            <field name="name">sale.order.line.form2.booking.venue.pitch</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="booking_calendar.view_order_line_booking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='booking']" position="inside">
+                    <group name="booking">
+                      <field name="venue_id"/>
+                      <field name="pitch_id"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('venue_id','=',venue_id)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
 
     </data>
 </openerp>

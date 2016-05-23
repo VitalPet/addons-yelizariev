@@ -1,18 +1,11 @@
 openerp.pitch_booking = function (session) {
-    var QWeb = session.web.qweb;
-    
-    session.web.form.One2ManyListView.include({
 
-        create_booking_calendar_iframe: function(record) {
-            var venue = record.attributes.venue_id;
-            var pitch = record.attributes.pitch_id;
-            return $(QWeb.render('BookingCalendarIFrame', {
-                        'url': this.session.url('/booking/calendar', {
-                            'venue': venue && venue[0] || '',
-                            'pitch': pitch && pitch[0] || '',
-                            'backend': 1
-                        })
-                    }))[0];
+    session.web_calendar.CalendarView.include({
+        free_slot_click_data: function(event) {
+            var data_template = this._super(event);
+            data_template['pitch_id'] = data_template['resource_id'];
+            delete data_template['resource_id'];
+            return data_template;
         }
     });
 }
