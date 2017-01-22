@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+#
 #
 #    Project Tags
 #    Copyright (C) 2013 Sistemas ADHOC
@@ -18,12 +18,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+#
 
 
-import project
-import project_tag
-import wizard
-import report
+from . import project
+from . import project_tag
+from . import wizard
+from . import report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

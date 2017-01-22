@@ -7,23 +7,23 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.exceptions import ValidationError
 
 
-class project_project_auto_staging(models.Model):
+class ProjectProjectAutoStaging(models.Model):
     _inherit = 'project.project'
     allow_automove = fields.Boolean('Allow auto move tasks', default=True, help='Allows move tasks to another stages according to Autostaging settings')
 
 
-class project_task_type_auto_staging(models.Model):
+class ProjectTaskTypeAutoStaging(models.Model):
     _inherit = 'project.task.type'
 
     to_stage_automove_id = fields.Many2one('project.task.type')
     delay_automove = fields.Integer()
     active_move = fields.Boolean('Enable auto move', default=False)
 
-    @api.one
+    @api.multi
     def write(self, vals):
         if not vals.get('active_move', True):
             vals['delay_automove'] = 0
-        return super(project_task_type_auto_staging, self).write(vals)
+        return super(ProjectTaskTypeAutoStaging, self).write(vals)
 
     @api.one
     @api.constrains('delay_automove')
@@ -33,7 +33,7 @@ class project_task_type_auto_staging(models.Model):
                 "Value of 'Delay' field  must be greater than 0")
 
 
-class project_task_auto_staging(models.Model):
+class ProjectTaskAutoStaging(models.Model):
     _inherit = 'project.task'
     allow_automove = fields.Boolean(
         compute='_get_allow_automove', search='_search_allow_automove')
@@ -50,7 +50,7 @@ class project_task_auto_staging(models.Model):
         'stage_id': {
             'project_task_auto_staging.mt_auto_move_task':
             lambda self, cr, uid, obj, ctx=None:
-                ctx and ctx.get('auto_staging')
+            ctx and ctx.get('auto_staging')
         }
     }
 
@@ -61,8 +61,15 @@ class project_task_auto_staging(models.Model):
                     ('stage_id.active_move', '=', True),
                     ('stage_id.to_stage_automove_id', '!=', False)]
 
-    @api.one
+    @api.multi
     def _get_allow_automove(self):
+        for r in self:
+            r._get_allow_automove_one()
+        return True
+
+    @api.multi
+    def _get_allow_automove_one(self):
+        self.ensure_one()
         self.allow_automove = self.project_id.use_tasks and \
             self.project_id.allow_automove and \
             self.stage_id.active_move and self.stage_id.to_stage_automove_id
@@ -74,8 +81,15 @@ class project_task_auto_staging(models.Model):
         self.when_date_automove = datetime.datetime.strptime(
             self.write_date, DEFAULT_SERVER_DATETIME_FORMAT) + delta
 
-    @api.one
+    @api.multi
     def _get_days_to_automove(self):
+        for r in self:
+            r._get_days_to_automove_one()
+        return True
+
+    @api.multi
+    def _get_days_to_automove_one(self):
+        self.ensure_one()
         if self.allow_automove:
             today = datetime.datetime.now()
             date_modifications = datetime.datetime.strptime(
@@ -92,4 +106,4 @@ class project_task_auto_staging(models.Model):
             ('when_date_automove', '<=', time.strftime('%Y-%m-%d'))])
         for task in tasks:
             task.with_context(auto_staging=True).write(
-                {'stage_id':  task.automove_to_stage_id.id})
+                {'stage_id': task.automove_to_stage_id.id})

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-##############################################################################
+#
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
@@ -20,7 +20,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+#
 
 {
     'name': 'Odoo Web Sessions Management Rules',
@@ -55,7 +55,7 @@ NOTE: Admin has no restrictions""",
                 'base',
                 'resource',
                 'web',
-                ],
+    ],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -64,7 +64,7 @@ NOTE: Admin has no restrictions""",
         'views/res_groups_view.xml',
         'views/ir_sessions_view.xml',
         'views/webclient_templates.xml',
-        ],
+    ],
     'init': [],
     'demo': [],
     'update': [],

@@ -1,6 +1,8 @@
-from openerp import api,models,fields
+# -*- coding: utf-8 -*-
+from openerp import api, models, fields
 
-class res_partner(models.Model):
+
+class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     @api.one
@@ -10,13 +12,21 @@ class res_partner(models.Model):
 
     is_employee = fields.Boolean('Is Employee', compute=_get_is_employee, store=True)
 
-    @api.one
+    @api.multi
     def _get_employee_id(self):
+        for r in self:
+            r._get_employee_id_one()
+        return True
+
+    @api.multi
+    def _get_employee_id_one(self):
+        self.ensure_one()
         self.employee_id = self.user_ids.employee_ids.ids and self.user_ids.employee_ids.ids[0] or None
 
     employee_id = fields.Many2one('hr.employee', string='Related employee', compute=_get_employee_id)
 
-class res_users(models.Model):
+
+class ResUsers(models.Model):
     _inherit = 'res.users'
 
     @api.one

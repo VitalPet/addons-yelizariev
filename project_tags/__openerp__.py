@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+#
 #
 #    Sistemas ADHOC - ADHOC SA
 #    https://launchpad.net/~sistemas-adhoc
@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+#
 
 {
     'name': 'Project Tags',
@@ -31,7 +31,7 @@ Project Tags
 
 Tested on Odoo 8.0 d023c079ed86468436f25da613bf486a4a17d625
     """,
-    'author':  'Sistemas ADHOC, IT-Projects LLC, Ivan Yelizariev',
+    'author': 'Sistemas ADHOC, IT-Projects LLC, Ivan Yelizariev',
     'website': 'www.sistemasadhoc.com.ar',
     'images': [
     ],
@@ -39,15 +39,15 @@ Tested on Odoo 8.0 d023c079ed86468436f25da613bf486a4a17d625
         'project'
     ],
     'data': [
-      'security/project_tags_group.xml',
-      'view/project_view.xml',
-      'view/project_tag_view.xml',
-      'view/project_tags_menuitem.xml',
-      'data/project_properties.xml',
-      'data/project_tag_properties.xml',
-      'data/project_track.xml',
-      'data/project_tag_track.xml',
-      'security/ir.model.access.csv'
+        'security/project_tags_group.xml',
+        'view/project_view.xml',
+        'view/project_tag_view.xml',
+        'view/project_tags_menuitem.xml',
+        'data/project_properties.xml',
+        'data/project_tag_properties.xml',
+        'data/project_track.xml',
+        'data/project_tag_track.xml',
+        'security/ir.model.access.csv'
     ],
     'demo': [
     ],

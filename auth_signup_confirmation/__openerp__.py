@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Email confirmation on sign up',
-    'summary': """New user is able to login only after confirming his\her email""",
+    'summary': """New user is able to login only after confirming his/her email""",
     'version': '1.0.0',
     'author': 'IT-Projects LLC',
     'website': "https://it-projects.info",
@@ -11,7 +11,7 @@
     'depends': [
         'auth_signup',
     ],
-    'data':['data/config.xml', 'views/thankyou.xml','data/email.xml'],
+    'data': ['data/config.xml', 'views/thankyou.xml', 'data/email.xml'],
     'installable': True,
     'post_init_hook': 'init_auth',
 }

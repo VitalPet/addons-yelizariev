@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+#
 #
 #    Auto reset sequence by year,month,day
 #    Copyright 2013 wangbuke <wangbuke@gmail.com>
@@ -17,11 +17,11 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
+#
 {
     'name': 'ir_sequence_autoreset',
     'version': '0.1',
-    'category' : 'Others',
+    'category': 'Others',
     'description': """
 
 Auto reset sequence by year,month,day
@@ -41,7 +41,7 @@ http://me.alipay.com/wangbuke
     'website': 'http://buke.github.io',
     'depends': ['base'],
     'data': [
-           'ir_sequence.xml',
+        'ir_sequence.xml',
     ],
     'installable': True,
     'images': [],

@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
+import re
 
 import openerp
-from openerp import http, SUPERUSER_ID
+from openerp import http
 from openerp.addons.web.controllers.main import Binary
 from openerp.addons.web.controllers.main import WebClient
 from openerp.addons.web.controllers import main as controllers_main
 import functools
-from openerp.http import request, serialize_exception as _serialize_exception
+from openerp.http import request
 from openerp.modules import get_module_resource
 from cStringIO import StringIO
+from openerp.tools.translate import _
+
 db_monodb = http.db_monodb
-import re
 
 
 class BinaryCustom(Binary):
+
     @http.route([
         '/web/binary/company_logo',
         '/logo',
@@ -23,7 +26,7 @@ class BinaryCustom(Binary):
         imgname = 'logo.png'
         default_logo_module = 'web_debranding'
         if request.session.db:
-            request.env['ir.config_parameter'].get_param('web_debranding.default_logo_module')
+            default_logo_module = request.env['ir.config_parameter'].get_param('web_debranding.default_logo_module')
         placeholder = functools.partial(get_module_resource, default_logo_module, 'static', 'src', 'img')
         uid = None
         if request.session.db:
@@ -88,5 +91,5 @@ class WebClientCustom(WebClient):
         return res
 
     def _debrand(self, string):
-        new_company = request.env['ir.config_parameter'].get_param('web_debranding.new_name')
+        new_company = request.env['ir.config_parameter'].get_param('web_debranding.new_name') or _('Software')
         return re.sub(r'[Oo]doo', new_company, string)
